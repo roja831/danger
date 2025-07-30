@@ -3,42 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚠️ Tracking by Roja Sebastian</title>
+<title>🚨 SYSTEM BREACH 🚨</title>
 <style>
     body {
         background: black;
-        color: #ff0000;
+        color: red;
         font-family: "Courier New", monospace;
         margin: 0;
-        padding: 0;
+        padding: 20px;
         overflow: hidden;
     }
 
-    .full-screen {
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        padding-top: 20px;
-        background: black;
-    }
-
     .intro {
-        font-size: 2rem;
-        animation: fadeIn 1s ease-in-out forwards;
-    }
-
-    .danger {
+        text-align: center;
         font-size: 1.5rem;
-        margin-top: 10px;
-        opacity: 0;
-        animation: fadeIn 1s ease-in-out forwards 1s;
+        animation: blink 1s infinite;
+        margin-bottom: 20px;
     }
 
-    .blink {
-        animation: blink 1s infinite;
+    .loading {
+        color: lime;
+        font-size: 1rem;
+        margin-top: 10px;
+    }
+
+    .danger-text {
+        white-space: pre-wrap;
+        font-size: 1rem;
+        opacity: 0;
+        animation: fadeIn 1s forwards;
     }
 
     @keyframes blink {
@@ -52,62 +45,95 @@
         100% {opacity: 1;}
     }
 
-    .console {
-        text-align: left;
-        padding: 10px;
-        width: 90%;
-        max-height: 70vh;
-        overflow-y: auto;
-        border: 1px solid red;
-        background: rgba(20,0,0,0.8);
-        color: #00ff00;
-        margin-top: 20px;
-        opacity: 0;
-        animation: fadeIn 1s ease-in-out forwards 2s;
-        font-size: 0.9rem;
+    .critical {
+        color: white;
+        background: red;
+        padding: 5px;
+        margin-top: 10px;
+        text-align: center;
+        font-weight: bold;
+        animation: blink 0.5s infinite;
     }
 </style>
 </head>
 <body>
 
-<div class="full-screen">
-    <div class="intro blink">🔍 Tracking by Roja Sebastian</div>
-    <div class="danger blink">⚠️ SYSTEM ALERT - DANGER DETECTED ⚠️</div>
-    <pre class="console" id="console"></pre>
+<div class="intro">📡 Your phone is being tracked by <strong>Roja Sebastian</strong>...</div>
+
+<div class="loading" id="loadingBar">[==========] 0%</div>
+
+<pre class="danger-text" id="dangerText"></pre>
+
+<div id="criticalError" class="critical" style="display:none;">
+    🔥 CRITICAL ERROR: SYSTEM SELF-DESTRUCT INITIATED 🔥
 </div>
 
 <audio id="beep" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
 <audio id="alarm" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
 
 <script>
-const consoleText = [
-    "[SYS] Initializing tracking protocol...",
-    "[SYS] Access granted to Roja Sebastian ✅",
-    "[SYS] Scanning devices in network...",
-    "[ERR] Unauthorized device detected 🚨",
-    "[SYS] Encrypting connection...",
-    "[TRACE] Location locked 🔒",
-    "[SYS] Danger level: CRITICAL",
-    "[ALERT] Initiating lockdown sequence..."
-];
+const loadingBar = document.getElementById("loadingBar");
+let loadPercent = 0;
 
-const consoleElement = document.getElementById("console");
-const beepSound = document.getElementById("beep");
-const alarmSound = document.getElementById("alarm");
-let i = 0;
-
-function addLogs() {
-    if (i < consoleText.length) {
-        consoleElement.innerHTML += consoleText[i] + "\n";
-        beepSound.play();
-        i++;
-        setTimeout(addLogs, 400); // Fast speed (0.4 sec each line)
+// Progress bar simulation
+function loadingProgress() {
+    if (loadPercent <= 100) {
+        let blocks = "=".repeat(loadPercent / 10);
+        let spaces = " ".repeat(10 - loadPercent / 10);
+        loadingBar.textContent = `[${blocks}${spaces}] ${loadPercent}%`;
+        loadPercent++;
+        setTimeout(loadingProgress, 50); // speed
     } else {
-        alarmSound.play();
+        startDangerText();
     }
 }
 
-setTimeout(addLogs, 2000); // Start logs quickly after intro
+// Danger text after loading
+const textMessage = `🛑🚨  WARNING  🚨🛑  
+████████████████████  
+█  SYSTEM BREACH DETECTED █  
+████████████████████  
+
+💀 MALWARE FOUND: “Whatsapp_Chat.exe”  
+📡 Tracking Device Location... █████▒▒▒▒▒▒▒▒▒▒▒▒▒  
+⚡ Encrypting All Messages... █████████████▒▒▒▒▒▒▒  
+🚨 RISK: 99.7% Data Loss  
+
+❗ DO NOT IGNORE ❗  
+🟥 Security Lockdown Initiated...  
+
+███▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  
+█  ALL Apps FLAGGED  █  
+███▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  
+
+💣  CRITICAL ERROR CODE: 0xDEAD  
+💣  SYSTEM SELF-DESTRUCT SEQUENCE STARTED...`;
+
+const dangerText = document.getElementById("dangerText");
+const beepSound = document.getElementById("beep");
+const alarmSound = document.getElementById("alarm");
+let index = 0;
+
+function startDangerText() {
+    dangerText.style.opacity = "1";
+    function typeText() {
+        if (index < textMessage.length) {
+            dangerText.textContent += textMessage[index];
+            if (textMessage[index] === "█" || textMessage[index] === "▓" || textMessage[index] === "▒") {
+                beepSound.play();
+            }
+            index++;
+            setTimeout(typeText, 15); // fast speed
+        } else {
+            alarmSound.play();
+            document.getElementById("criticalError").style.display = "block";
+        }
+    }
+    typeText();
+}
+
+// Start progress bar
+setTimeout(loadingProgress, 2000);
 </script>
 
 </body>
