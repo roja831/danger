@@ -3,81 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚠️ Security Alert</title>
+<title>⚠️ Tracking by Roja Sebastian</title>
 <style>
     body {
         background: black;
-        color: limegreen;
+        color: #ff0000;
         font-family: "Courier New", monospace;
         margin: 0;
         padding: 0;
         overflow: hidden;
     }
-    .center {
-        text-align: center;
-        margin-top: 100px;
+
+    .full-screen {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: black;
     }
+
+    .intro {
+        font-size: 2rem;
+        animation: fadeIn 2s ease-in-out forwards;
+    }
+
+    .danger {
+        text-align: center;
+        font-size: 1.5rem;
+        opacity: 0;
+        animation: fadeIn 2s ease-in-out forwards 3s;
+    }
+
     .blink {
         animation: blink 1s infinite;
     }
+
     @keyframes blink {
         0% {opacity: 1;}
         50% {opacity: 0;}
         100% {opacity: 1;}
     }
-    .console {
-        padding: 20px;
-        white-space: pre-wrap;
-        font-size: 1rem;
+
+    @keyframes fadeIn {
+        0% {opacity: 0;}
+        100% {opacity: 1;}
     }
-    .alert {
-        color: red;
-        border: 2px solid red;
+
+    .console {
+        text-align: left;
         padding: 10px;
+        width: 90%;
+        max-height: 60vh;
+        overflow-y: auto;
+        border: 1px solid red;
+        background: rgba(20,0,0,0.8);
+        color: #00ff00;
         margin-top: 20px;
-        background-color: rgba(255,0,0,0.1);
+        opacity: 0;
+        animation: fadeIn 2s ease-in-out forwards 5s;
     }
 </style>
 </head>
 <body>
 
-<div class="center">
-    <h1 class="blink">🛑 SYSTEM ALERT 🛑</h1>
-    <p>Initializing tracking module...</p>
+<div class="full-screen">
+    <div class="intro blink">🔍 Tracking by Roja Sebastian</div>
+    <div class="danger blink">⚠️ SYSTEM ALERT - DANGER DETECTED ⚠️</div>
+    <pre class="console" id="console"></pre>
 </div>
 
-<div class="console" id="console"></div>
-
-<audio id="alarm" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
-
 <script>
-const consoleElement = document.getElementById("console");
-const alarmSound = document.getElementById("alarm");
-
-const logs = [
-    "[SYS] Booting up... ███▒▒▒",
-    "[SYS] Loading secure environment...",
-    "[SYS] Tracking initiated by Roja Sebastian ✅",
-    "[WARN] Unauthorized device detected...",
-    "[SYS] Encrypting sensitive data... █████▒▒▒▒",
-    "[TRACE] Location: ██ ████ ██",
-    "[SYS] Establishing connection...",
-    "[ERR] CRITICAL BREACH DETECTED",
-    "[ALERT] ALERT MODE ACTIVATED ⚠️"
+const consoleText = [
+    "[SYS] Initializing tracking protocol...",
+    "[SYS] Access granted to Roja Sebastian ✅",
+    "[SYS] Scanning devices in network...",
+    "[ERR] Unauthorized device detected 🚨",
+    "[SYS] Encrypting connection...",
+    "[TRACE] Location locked 🔒",
+    "[SYS] Danger level: CRITICAL",
+    "[ALERT] Initiating lockdown sequence..."
 ];
 
+const consoleElement = document.getElementById("console");
 let i = 0;
-function typeLog() {
-    if (i < logs.length) {
-        consoleElement.innerHTML += logs[i] + "\n";
-        if (logs[i].includes("ALERT")) alarmSound.play();
+
+function addLogs() {
+    if (i < consoleText.length) {
+        consoleElement.innerHTML += consoleText[i] + "\n";
         i++;
-        setTimeout(typeLog, 1500);
-    } else {
-        consoleElement.innerHTML += "\nSYSTEM LOCKDOWN in progress...";
+        setTimeout(addLogs, 1500);
     }
 }
-typeLog();
+setTimeout(addLogs, 5000); // start logs after intro
 </script>
 
 </body>
