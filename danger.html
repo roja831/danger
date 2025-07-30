@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚠️ Security Alert</title>
+<style>
+    body {
+        background-color: black;
+        color: red;
+        font-family: monospace;
+        padding: 20px;
+    }
+    .blink {
+        animation: blink 1s infinite;
+    }
+    @keyframes blink {
+        0% {opacity: 1;}
+        50% {opacity: 0;}
+        100% {opacity: 1;}
+    }
+    .error {
+        border: 2px solid red;
+        padding: 15px;
+        margin-top: 20px;
+        background-color: #200;
+    }
+</style>
+</head>
+<body>
+<h1 class="blink">🛑 SYSTEM BREACH DETECTED 🛑</h1>
+<div class="error">
+<pre>
+[SYS] Initializing... ███▒▒▒
+[SYS] Encrypting group data... █████▒▒▒▒
+[ERR] Unauthorized device: (4) DETECTED
+[SYS] Location Trace: ██████████▒▒▒▒▒▒
+[WARN] Device sync... 97% COMPLETE
+</pre>
+</div>
+<h2 class="blink">⚠️ CRITICAL ERROR 0x000DEAD ⚠️</h2>
+<p>⚡ You are being <strong>tracked by Roja Sebastian</strong>...</p>
+<p>TIMER: <span id="timer">00:10</span></p>
+<script>
+let time = 10;
+setInterval(() => {
+    if (time > 0) {
+        time--;
+        document.getElementById("timer").innerText = "00:" + (time < 10 ? "0" + time : time);
+    } else {
+        document.getElementById("timer").innerText = "SYSTEM LOCKDOWN INITIATED";
+        document.body.style.backgroundColor = "red";
+    }
+}, 1000);
+</script>
+</body>
+</html>
