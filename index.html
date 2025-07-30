@@ -7,7 +7,7 @@
 <style>
     body {
         background: black;
-        color: red;
+        color: #00FF00;
         font-family: "Courier New", monospace;
         margin: 0;
         padding: 20px;
@@ -15,23 +15,27 @@
     }
 
     .intro {
+        color: red;
         text-align: center;
         font-size: 1.5rem;
-        animation: blink 1s infinite;
-        margin-bottom: 20px;
+        animation: blink 0.8s infinite;
     }
 
-    .loading {
-        color: lime;
-        font-size: 1rem;
-        margin-top: 10px;
-    }
-
-    .danger-text {
+    .hack-text {
         white-space: pre-wrap;
-        font-size: 1rem;
-        opacity: 0;
-        animation: fadeIn 0.5s forwards;
+        font-size: 0.9rem;
+        height: 80vh;
+        overflow: hidden;
+    }
+
+    .critical {
+        color: white;
+        background: red;
+        padding: 5px;
+        text-align: center;
+        font-weight: bold;
+        animation: blink 0.5s infinite;
+        display: none;
     }
 
     @keyframes blink {
@@ -40,96 +44,62 @@
         100% {opacity: 1;}
     }
 
-    @keyframes fadeIn {
-        0% {opacity: 0;}
-        100% {opacity: 1;}
-    }
-
-    .critical {
-        color: white;
-        background: red;
-        padding: 5px;
-        margin-top: 10px;
-        text-align: center;
-        font-weight: bold;
-        animation: blink 0.5s infinite;
+    @keyframes flash {
+        0%, 100% {background: black;}
+        50% {background: red;}
     }
 </style>
 </head>
 <body>
 
-<div class="intro">📡 Your phone is being tracked by <strong>Roja Sebastian</strong>...</div>
+<div class="intro">📡 TRACKING INITIATED BY <strong>ROJA SEBASTIAN</strong></div>
 
-<div class="loading" id="loadingBar">[==========] 0%</div>
+<div id="hackArea" class="hack-text"></div>
 
-<pre class="danger-text" id="dangerText"></pre>
-
-<div id="criticalError" class="critical" style="display:none;">
+<div id="criticalError" class="critical">
     🔥 CRITICAL ERROR: SYSTEM SELF-DESTRUCT INITIATED 🔥
 </div>
 
-<!-- Using working MP3 sound links -->
 <audio id="beep" src="https://www.soundjay.com/button/beep-07.mp3"></audio>
 <audio id="alarm" src="https://www.soundjay.com/button/beep-09.mp3"></audio>
 
 <script>
-const loadingBar = document.getElementById("loadingBar");
-
-function fakeLoading() {
-    setTimeout(() => {
-        loadingBar.textContent = "[█████     ] 50%";
-    }, 500);
-    setTimeout(() => {
-        loadingBar.textContent = "[██████████] 100%";
-    }, 1000);
-    setTimeout(startDangerText, 1500);
-}
-
-// Danger text
-const textMessage = `🛑🚨  WARNING  🚨🛑  
-████████████████████  
-█  SYSTEM BREACH DETECTED █  
-████████████████████  
-
-💀 MALWARE FOUND: “Group_Chat.exe”  
-📡 Tracking Device Location... █████▒▒▒▒▒▒▒▒▒▒▒▒▒  
-⚡ Encrypting All Messages... █████████████▒▒▒▒▒▒▒  
-🚨 RISK: 99.7% Data Loss  
-
-❗ DO NOT IGNORE ❗  
-🟥 Security Lockdown Initiated...  
-
-███▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  
-█  ALL GROUP MEMBERS FLAGGED  █  
-███▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  
-
-💣  CRITICAL ERROR CODE: 0xDEAD  
-💣  SYSTEM SELF-DESTRUCT SEQUENCE STARTED...`;
-
-const dangerText = document.getElementById("dangerText");
+const hackArea = document.getElementById("hackArea");
 const beepSound = document.getElementById("beep");
 const alarmSound = document.getElementById("alarm");
-let index = 0;
 
-function startDangerText() {
-    dangerText.style.opacity = "1";
-    function typeText() {
-        if (index < textMessage.length) {
-            dangerText.textContent += textMessage[index];
-            if ("█▓▒".includes(textMessage[index])) {
-                beepSound.play();
-            }
-            index++;
-            setTimeout(typeText, 5); // FAST text speed
-        } else {
-            alarmSound.play();
-            document.getElementById("criticalError").style.display = "block";
-        }
+const scaryLines = [
+    "[INIT] Accessing device core...",
+    "[OK] Connection established.",
+    "[SCAN] Reading storage sectors...",
+    "[WARN] Suspicious file found: Group_Chat.exe",
+    "[TRACE] Locating IP address...",
+    "[TRACE] Found. Location: India",
+    "[INJECT] Malware uploading...",
+    "[75%] Encrypting chats...",
+    "[90%] Extracting contacts...",
+    "[99%] Breach complete.",
+    "!!! Tracking by ROJA SEBASTIAN ACTIVE !!!",
+    "[ALERT] SYSTEM CRITICAL FAILURE",
+    "[LOCKDOWN] Initiating self-destruct...",
+];
+
+let lineIndex = 0;
+
+function typeLines() {
+    if (lineIndex < scaryLines.length) {
+        hackArea.textContent += scaryLines[lineIndex] + "\n";
+        beepSound.play();
+        lineIndex++;
+        setTimeout(typeLines, 50); // Fast scary scroll
+    } else {
+        alarmSound.play();
+        document.body.style.animation = "flash 0.3s infinite";
+        document.getElementById("criticalError").style.display = "block";
     }
-    typeText();
 }
 
-setTimeout(fakeLoading, 1000);
+setTimeout(typeLines, 0);
 </script>
 
 </body>
