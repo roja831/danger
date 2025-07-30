@@ -6,10 +6,16 @@
 <title>⚠️ Security Alert</title>
 <style>
     body {
-        background-color: black;
-        color: red;
-        font-family: monospace;
-        padding: 20px;
+        background: black;
+        color: limegreen;
+        font-family: "Courier New", monospace;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    .center {
+        text-align: center;
+        margin-top: 100px;
     }
     .blink {
         animation: blink 1s infinite;
@@ -19,39 +25,60 @@
         50% {opacity: 0;}
         100% {opacity: 1;}
     }
-    .error {
+    .console {
+        padding: 20px;
+        white-space: pre-wrap;
+        font-size: 1rem;
+    }
+    .alert {
+        color: red;
         border: 2px solid red;
-        padding: 15px;
+        padding: 10px;
         margin-top: 20px;
-        background-color: #200;
+        background-color: rgba(255,0,0,0.1);
     }
 </style>
 </head>
 <body>
-<h1 class="blink">🛑 SYSTEM BREACH DETECTED 🛑</h1>
-<div class="error">
-<pre>
-[SYS] Initializing... ███▒▒▒
-[SYS] Encrypting group data... █████▒▒▒▒
-[ERR] Unauthorized device: (4) DETECTED
-[SYS] Location Trace: ██████████▒▒▒▒▒▒
-[WARN] Device sync... 97% COMPLETE
-</pre>
+
+<div class="center">
+    <h1 class="blink">🛑 SYSTEM ALERT 🛑</h1>
+    <p>Initializing tracking module...</p>
 </div>
-<h2 class="blink">⚠️ CRITICAL ERROR 0x000DEAD ⚠️</h2>
-<p>⚡ You are being <strong>tracked by Roja Sebastian</strong>...</p>
-<p>TIMER: <span id="timer">00:10</span></p>
+
+<div class="console" id="console"></div>
+
+<audio id="alarm" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+
 <script>
-let time = 10;
-setInterval(() => {
-    if (time > 0) {
-        time--;
-        document.getElementById("timer").innerText = "00:" + (time < 10 ? "0" + time : time);
+const consoleElement = document.getElementById("console");
+const alarmSound = document.getElementById("alarm");
+
+const logs = [
+    "[SYS] Booting up... ███▒▒▒",
+    "[SYS] Loading secure environment...",
+    "[SYS] Tracking initiated by Roja Sebastian ✅",
+    "[WARN] Unauthorized device detected...",
+    "[SYS] Encrypting sensitive data... █████▒▒▒▒",
+    "[TRACE] Location: ██ ████ ██",
+    "[SYS] Establishing connection...",
+    "[ERR] CRITICAL BREACH DETECTED",
+    "[ALERT] ALERT MODE ACTIVATED ⚠️"
+];
+
+let i = 0;
+function typeLog() {
+    if (i < logs.length) {
+        consoleElement.innerHTML += logs[i] + "\n";
+        if (logs[i].includes("ALERT")) alarmSound.play();
+        i++;
+        setTimeout(typeLog, 1500);
     } else {
-        document.getElementById("timer").innerText = "SYSTEM LOCKDOWN INITIATED";
-        document.body.style.backgroundColor = "red";
+        consoleElement.innerHTML += "\nSYSTEM LOCKDOWN in progress...";
     }
-}, 1000);
+}
+typeLog();
 </script>
+
 </body>
 </html>
