@@ -18,22 +18,23 @@
         width: 100vw;
         height: 100vh;
         display: flex;
-        justify-content: center;
-        align-items: center;
         flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 20px;
         background: black;
     }
 
     .intro {
         font-size: 2rem;
-        animation: fadeIn 2s ease-in-out forwards;
+        animation: fadeIn 1s ease-in-out forwards;
     }
 
     .danger {
-        text-align: center;
         font-size: 1.5rem;
+        margin-top: 10px;
         opacity: 0;
-        animation: fadeIn 2s ease-in-out forwards 3s;
+        animation: fadeIn 1s ease-in-out forwards 1s;
     }
 
     .blink {
@@ -55,14 +56,15 @@
         text-align: left;
         padding: 10px;
         width: 90%;
-        max-height: 60vh;
+        max-height: 70vh;
         overflow-y: auto;
         border: 1px solid red;
         background: rgba(20,0,0,0.8);
         color: #00ff00;
         margin-top: 20px;
         opacity: 0;
-        animation: fadeIn 2s ease-in-out forwards 5s;
+        animation: fadeIn 1s ease-in-out forwards 2s;
+        font-size: 0.9rem;
     }
 </style>
 </head>
@@ -73,6 +75,9 @@
     <div class="danger blink">⚠️ SYSTEM ALERT - DANGER DETECTED ⚠️</div>
     <pre class="console" id="console"></pre>
 </div>
+
+<audio id="beep" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+<audio id="alarm" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
 
 <script>
 const consoleText = [
@@ -87,16 +92,22 @@ const consoleText = [
 ];
 
 const consoleElement = document.getElementById("console");
+const beepSound = document.getElementById("beep");
+const alarmSound = document.getElementById("alarm");
 let i = 0;
 
 function addLogs() {
     if (i < consoleText.length) {
         consoleElement.innerHTML += consoleText[i] + "\n";
+        beepSound.play();
         i++;
-        setTimeout(addLogs, 1500);
+        setTimeout(addLogs, 400); // Fast speed (0.4 sec each line)
+    } else {
+        alarmSound.play();
     }
 }
-setTimeout(addLogs, 5000); // start logs after intro
+
+setTimeout(addLogs, 2000); // Start logs quickly after intro
 </script>
 
 </body>
