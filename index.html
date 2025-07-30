@@ -7,7 +7,7 @@
 <style>
     body {
         background: black;
-        color: #00FF00;
+        color: red;
         font-family: "Courier New", monospace;
         margin: 0;
         padding: 20px;
@@ -15,27 +15,25 @@
     }
 
     .intro {
-        color: red;
         text-align: center;
         font-size: 1.5rem;
-        animation: blink 0.8s infinite;
+        animation: blink 1s infinite;
+        margin-bottom: 20px;
     }
 
-    .hack-text {
+    .loading {
+        color: lime;
+        font-size: 1rem;
+        margin-top: 10px;
+        height: 80px;
+        white-space: pre-line;
+    }
+
+    .danger-text {
         white-space: pre-wrap;
-        font-size: 0.9rem;
-        height: 80vh;
-        overflow: hidden;
-    }
-
-    .critical {
-        color: white;
-        background: red;
-        padding: 5px;
-        text-align: center;
-        font-weight: bold;
-        animation: blink 0.5s infinite;
-        display: none;
+        font-size: 1rem;
+        opacity: 0;
+        animation: fadeIn 0.5s forwards;
     }
 
     @keyframes blink {
@@ -44,62 +42,112 @@
         100% {opacity: 1;}
     }
 
-    @keyframes flash {
-        0%, 100% {background: black;}
-        50% {background: red;}
+    @keyframes fadeIn {
+        0% {opacity: 0;}
+        100% {opacity: 1;}
+    }
+
+    .critical {
+        color: white;
+        background: red;
+        padding: 5px;
+        margin-top: 10px;
+        text-align: center;
+        font-weight: bold;
+        animation: blink 0.5s infinite;
     }
 </style>
 </head>
 <body>
 
-<div class="intro">📡 TRACKING INITIATED BY <strong>ROJA SEBASTIAN</strong></div>
+<div class="intro">📡 Your phone is being tracked by <strong>Roja Sebastian</strong>...</div>
 
-<div id="hackArea" class="hack-text"></div>
+<div class="loading" id="loadingText">Initializing breach...</div>
 
-<div id="criticalError" class="critical">
+<pre class="danger-text" id="dangerText"></pre>
+
+<div id="criticalError" class="critical" style="display:none;">
     🔥 CRITICAL ERROR: SYSTEM SELF-DESTRUCT INITIATED 🔥
 </div>
 
+<!-- Sounds -->
 <audio id="beep" src="https://www.soundjay.com/button/beep-07.mp3"></audio>
 <audio id="alarm" src="https://www.soundjay.com/button/beep-09.mp3"></audio>
 
 <script>
-const hackArea = document.getElementById("hackArea");
-const beepSound = document.getElementById("beep");
-const alarmSound = document.getElementById("alarm");
+const loadingText = document.getElementById("loadingText");
 
-const scaryLines = [
-    "[INIT] Accessing device core...",
-    "[OK] Connection established.",
-    "[SCAN] Reading storage sectors...",
-    "[WARN] Suspicious file found: Group_Chat.exe",
-    "[TRACE] Locating IP address...",
-    "[TRACE] Found. Location: India",
-    "[INJECT] Malware uploading...",
-    "[75%] Encrypting chats...",
-    "[90%] Extracting contacts...",
-    "[99%] Breach complete.",
-    "!!! Tracking by ROJA SEBASTIAN ACTIVE !!!",
-    "[ALERT] SYSTEM CRITICAL FAILURE",
-    "[LOCKDOWN] Initiating self-destruct...",
+const scarySteps = [
+    "[INIT] Breach module loaded...",
+    "[SCAN] Searching vulnerabilities...",
+    "[ACCESS] Entry granted...",
+    "[OVERRIDE] Security disabled...",
+    "[TRACE] Tracking victim IP...",
+    "[TRACE] IP Found: ***.***.***.**",
+    "[PROGRESS] 0% █▒▒▒▒▒▒▒▒▒",
+    "[PROGRESS] 50% █████▒▒▒▒▒",
+    "[PROGRESS] 100% ██████████",
+    "[LOCK] Encrypting chats...",
+    "[DONE] Breach Complete."
 ];
 
-let lineIndex = 0;
-
-function typeLines() {
-    if (lineIndex < scaryLines.length) {
-        hackArea.textContent += scaryLines[lineIndex] + "\n";
-        beepSound.play();
-        lineIndex++;
-        setTimeout(typeLines, 50); // Fast scary scroll
-    } else {
-        alarmSound.play();
-        document.body.style.animation = "flash 0.3s infinite";
-        document.getElementById("criticalError").style.display = "block";
-    }
+function fakeLoading() {
+    let step = 0;
+    let interval = setInterval(() => {
+        loadingText.textContent = scarySteps[step];
+        step++;
+        if (step >= scarySteps.length) {
+            clearInterval(interval);
+            startDangerText();
+        }
+    }, 200); // Faster, scary update speed
 }
 
-setTimeout(typeLines, 0);
+// Danger text (unchanged)
+const textMessage = `🛑🚨  WARNING  🚨🛑  
+████████████████████  
+█  SYSTEM BREACH DETECTED █  
+████████████████████  
+
+💀 MALWARE FOUND: “Chat.exe”  
+📡 Tracking Device Location... █████▒▒▒▒▒▒▒▒▒▒▒▒▒  
+⚡ Encrypting All Messages... █████████████▒▒▒▒▒▒▒  
+🚨 RISK: 99.7% Data Loss  
+
+❗ DO NOT IGNORE ❗  
+🟥 Security Lockdown Initiated...  
+
+███▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  
+█  ALL APPS FLAGGED  █  
+███▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  
+
+💣  CRITICAL ERROR CODE: 0xDEAD  
+💣  SYSTEM SELF-DESTRUCT SEQUENCE STARTED...`;
+
+const dangerText = document.getElementById("dangerText");
+const beepSound = document.getElementById("beep");
+const alarmSound = document.getElementById("alarm");
+let index = 0;
+
+function startDangerText() {
+    dangerText.style.opacity = "1";
+    function typeText() {
+        if (index < textMessage.length) {
+            dangerText.textContent += textMessage[index];
+            if ("█▓▒".includes(textMessage[index])) {
+                beepSound.play();
+            }
+            index++;
+            setTimeout(typeText, 10); 
+        } else {
+            alarmSound.play();
+            document.getElementById("criticalError").style.display = "block";
+        }
+    }
+    typeText();
+}
+
+setTimeout(fakeLoading, 1000);
 </script>
 
 </body>
