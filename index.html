@@ -17,7 +17,7 @@
     .intro {
         text-align: center;
         font-size: 1.5rem;
-        animation: blink 1s infinite;
+        animation: blink 0s infinite;
         margin-bottom: 20px;
     }
 
@@ -56,18 +56,34 @@
         font-weight: bold;
         animation: blink 0.5s infinite;
     }
+
+    /* Icon sending animation */
+    .icons img {
+        width: 30px;
+        margin: 5px;
+        animation: send 0.4s linear infinite;
+        position: relative;
+    }
+
+    @keyframes send {
+        0% {transform: translateX(0); opacity:1;}
+        100% {transform: translateX(300px); opacity:0;}
+    }
 </style>
 </head>
 <body>
 
-<div class="intro">📡 Your phone is being tracked by <strong>Roja Sebastian</strong>...</div>
-
+<div class="intro">📡 Your phone is being tracked by <strong>Roja</strong>...</div>
 <div class="loading" id="loadingText">Initializing breach...</div>
-
 <pre class="danger-text" id="dangerText"></pre>
-
+<div id="dataTheft" class="icons" style="display:none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/1829/1829583.png">
+    <img src="https://cdn-icons-png.flaticon.com/512/833/833314.png">
+    <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png">
+    <img src="https://cdn-icons-png.flaticon.com/512/716/716784.png">
+</div>
 <div id="criticalError" class="critical" style="display:none;">
-    🔥 CRITICAL ERROR: SYSTEM SELF-DESTRUCT INITIATED 🔥
+    ‼️ CRITICAL ERROR: SYSTEM SELF-DESTRUCT INITIATED ‼️
 </div>
 
 <!-- Sounds -->
@@ -100,10 +116,8 @@ function fakeLoading() {
             clearInterval(interval);
             startDangerText();
         }
-    }, 200); // Faster, scary update speed
+    }, 200);
 }
-
-// Danger text (unchanged)
 const textMessage = `🛑🚨  WARNING  🚨🛑  
 ████████████████████  
 █  SYSTEM BREACH DETECTED █  
@@ -114,15 +128,12 @@ const textMessage = `🛑🚨  WARNING  🚨🛑
 ⚡ Encrypting All Messages... █████████████▒▒▒▒▒▒▒  
 🚨 RISK: 99.7% Data Loss  
 
-❗ DO NOT IGNORE ❗  
-🟥 Security Lockdown Initiated...  
-
-███▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  
-█  ALL APPS FLAGGED  █  
-███▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  
-
-💣  CRITICAL ERROR CODE: 0xDEAD  
-💣  SYSTEM SELF-DESTRUCT SEQUENCE STARTED...`;
+[DATA] Copying all Contacts... 
+[DATA] Copying all Photos... 
+[DATA] Copying all Videos... 
+[DATA] Copying all Documents... 
+[SENDING] Uploading stolen data to secure server...
+`;
 
 const dangerText = document.getElementById("dangerText");
 const beepSound = document.getElementById("beep");
@@ -140,8 +151,11 @@ function startDangerText() {
             index++;
             setTimeout(typeText, 10); 
         } else {
-            alarmSound.play();
-            document.getElementById("criticalError").style.display = "block";
+            document.getElementById("dataTheft").style.display = "block";
+            setTimeout(() => {
+                alarmSound.play();
+                document.getElementById("criticalError").style.display = "block";
+            }, 2000);
         }
     }
     typeText();
