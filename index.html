@@ -31,7 +31,7 @@
         white-space: pre-wrap;
         font-size: 1rem;
         opacity: 0;
-        animation: fadeIn 1s forwards;
+        animation: fadeIn 0.5s forwards;
     }
 
     @keyframes blink {
@@ -68,33 +68,30 @@
     🔥 CRITICAL ERROR: SYSTEM SELF-DESTRUCT INITIATED 🔥
 </div>
 
-<audio id="beep" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
-<audio id="alarm" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
+<!-- Using working MP3 sound links -->
+<audio id="beep" src="https://www.soundjay.com/button/beep-07.mp3"></audio>
+<audio id="alarm" src="https://www.soundjay.com/button/beep-09.mp3"></audio>
 
 <script>
 const loadingBar = document.getElementById("loadingBar");
-let loadPercent = 0;
 
-// Progress bar simulation
-function loadingProgress() {
-    if (loadPercent <= 100) {
-        let blocks = "=".repeat(loadPercent / 10);
-        let spaces = " ".repeat(10 - loadPercent / 10);
-        loadingBar.textContent = `[${blocks}${spaces}] ${loadPercent}%`;
-        loadPercent++;
-        setTimeout(loadingProgress, 50); // speed
-    } else {
-        startDangerText();
-    }
+function fakeLoading() {
+    setTimeout(() => {
+        loadingBar.textContent = "[█████     ] 50%";
+    }, 500);
+    setTimeout(() => {
+        loadingBar.textContent = "[██████████] 100%";
+    }, 1000);
+    setTimeout(startDangerText, 1500);
 }
 
-// Danger text after loading
+// Danger text
 const textMessage = `🛑🚨  WARNING  🚨🛑  
 ████████████████████  
 █  SYSTEM BREACH DETECTED █  
 ████████████████████  
 
-💀 MALWARE FOUND: “Whatsapp_Chat.exe”  
+💀 MALWARE FOUND: “Group_Chat.exe”  
 📡 Tracking Device Location... █████▒▒▒▒▒▒▒▒▒▒▒▒▒  
 ⚡ Encrypting All Messages... █████████████▒▒▒▒▒▒▒  
 🚨 RISK: 99.7% Data Loss  
@@ -103,7 +100,7 @@ const textMessage = `🛑🚨  WARNING  🚨🛑
 🟥 Security Lockdown Initiated...  
 
 ███▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  
-█  ALL Apps FLAGGED  █  
+█  ALL GROUP MEMBERS FLAGGED  █  
 ███▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  
 
 💣  CRITICAL ERROR CODE: 0xDEAD  
@@ -119,11 +116,11 @@ function startDangerText() {
     function typeText() {
         if (index < textMessage.length) {
             dangerText.textContent += textMessage[index];
-            if (textMessage[index] === "█" || textMessage[index] === "▓" || textMessage[index] === "▒") {
+            if ("█▓▒".includes(textMessage[index])) {
                 beepSound.play();
             }
             index++;
-            setTimeout(typeText, 15); // fast speed
+            setTimeout(typeText, 10); // FAST text speed
         } else {
             alarmSound.play();
             document.getElementById("criticalError").style.display = "block";
@@ -132,8 +129,7 @@ function startDangerText() {
     typeText();
 }
 
-// Start progress bar
-setTimeout(loadingProgress, 2000);
+setTimeout(fakeLoading, 1000);
 </script>
 
 </body>
